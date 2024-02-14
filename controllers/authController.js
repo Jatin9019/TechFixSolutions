@@ -3,7 +3,7 @@ import  JWT  from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 export const registerController = async(req,res) => {
     try{
-        const {Name, EmailID, Password, MobileNumber, Address, Answer,Role} = req.body;
+        const {Name, EmailID, Password, MobileNumber,Address , Answer,Role} = req.body;
         //validations
         if (!Name){
             return res.send({error: "Name is required!"})
@@ -17,6 +17,23 @@ export const registerController = async(req,res) => {
         if (!MobileNumber){
             return res.send({error: "Mobile Number is required!"})
         }
+        /*
+        if (!StreetNumber){
+            return res.send({error: "Street Number is required!"})
+        }
+        if (!StreetName){
+            return res.send({error: "Street Name is required!"})
+        }
+        if (!City){
+            return res.send({error: "City is required!"})
+        }
+        if (!Province){
+            return res.send({error: "Province is required!"})
+        }
+        if (!Pincode){
+            return res.send({error: "Pincode is required!"})
+        }
+        */
         if (!Address){
             return res.send({error: "Address is required!"})
         }
@@ -35,7 +52,7 @@ export const registerController = async(req,res) => {
         const hashedPassword = await hashPassword(Password);
 
         //create user entry in database
-        const user = await new userModel({Name,EmailID,Password:hashedPassword,MobileNumber,Address, Answer}).save()
+        const user = await new userModel({Name,EmailID,Password:hashedPassword,MobileNumber,Address,Answer}).save()
         res.status(201).send({
             success: true,
             message: "User Registered. Please Proceed to Login now",
@@ -71,21 +88,21 @@ export const getAllUsersController = async(req,res) => {
 
 export const loginController = async(req,res) => {
     try{
-        const {emailID,password} = req.body;
-        if(!emailID || !password){
+        const {EmailID,Password} = req.body;
+        if(!EmailID || !Password){
             return res.status(404).send({
                 success: false,
                 message: "Invalid EmailID or password"
             })
         }
-        const user = await userModel.findOne({EmailID: emailID});
+        const user = await userModel.findOne({EmailID});
         if(!user){
             return res.status(404).send({
                 success: false,
                 message: "User Not Found !!"
             })
         }
-        const checkPassword  = await camparePassword(password,user.Password)
+        const checkPassword  = await camparePassword(Password,user.Password)
         if(!checkPassword){
             return res.status(200).send({
                 success: false,

@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
     Role: {
         type: Number,
         default: 0
+    },
+    isTechnician: {
+        type: Boolean,
+        default: false
     }
 
 },{timestamps: true})

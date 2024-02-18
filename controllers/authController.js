@@ -61,7 +61,8 @@ export const registerController = async(req,res) => {
         
     }catch(error){
         console.log(error);
-        res.send({
+        res.status(500).send({
+            success: false,
             message:"Error is registration",
             error
         })
@@ -79,7 +80,8 @@ export const getAllUsersController = async(req,res) => {
     }
     catch(error){
         console.log(error);;
-        res.send({
+        res.status(500).send({
+            success: false,
             message: "Error in getting all users",
             error
         })
@@ -118,7 +120,8 @@ export const loginController = async(req,res) => {
                 EmailID: user.EmailID,
                 MobileNumber: user.MobileNumber,
                 Address: user.Address,
-                Role: user.Role
+                Role: user.Role,
+                Technician: user.isTechnician
             },
             token
         })
@@ -174,6 +177,56 @@ export const ForgetPasswordController = async(req,res) => {
             success: false,
             message: "Error in Changing Password",
             error
+        })
+    }
+}
+
+export const updateProfileController = async(req,res) => {
+    try{
+        const {Name, Password, MobileNumber, Address} = req.body
+        const user = await userModel.findById(req.user._id)
+        if(Password & Password.length < 6){
+            return res.json({error:"Password is required and it should be minimum 6 characters long"})
+        }
+        if (Address){
+            Address.StreetNumber ? Address.StreetNumber : Address.StreetNumber=user.Address.StreetNumber
+            Address.StreetName ? Address.StreetName : Address.StreetName=user.Address.StreetName
+            Address.City ? Address.City : Address.City=user.Address.City
+            Address.Province ? Address.Province : Address.Province=user.Address.Province
+            Address.Pincode ? Address.Pincode : Address.Pincode=user.Address.Pincode
+        }
+        const hashedPassword = Password ? await hashPassword(Password) : undefined
+        const updatedUser = await userModel.findByIdAndUpdate(req.user._id,{
+            Name: Name || user.Name,
+            MobileNumber: MobileNumber || user.MobileNumber,
+            Address: Address || user.Address,
+            Password: hashedPassword || user.Password
+        },{new: true})
+        res.status(200).send({
+            success: true,
+            message: "Updated Successfully",
+            updatedUser
+        })
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+export const deleteUserController = async(req,res) => {
+    try{
+        const {id} = req.params;
+        const user = await userModel.findByIdAndDelete(id);
+        res.status(200).send({
+            success: true,
+            message: "User Deleted succcessfully",
+            user
+        })
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "User Deletion failed"
         })
     }
 }

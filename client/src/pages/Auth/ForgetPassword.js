@@ -32,13 +32,13 @@ const ForgetPassword = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <div className='mb-3'>
-              <input type='email' value={emailID} onChange={(e)=>{setEmail(e.target.value)}} className="form-control" id="exampleInputEmail" placeholder='Enter your Email' required />
+              <input type='email' value={emailID} onChange={(e)=>{setEmail(e.target.value)}} className="form-control" id="exampleInputEmail" placeholder='Enter Your Email' required />
             </div>
             <div className="mb-3">
-              <input type="text" value={answer} onChange={(e)=>setAnswer(e.target.value)} className="form-control" id="exampleInputEmail" placeholder='Enter your Favourite Sport' required />
+              <input type="text" value={answer} onChange={(e)=>setAnswer(e.target.value)} className="form-control" id="exampleInputEmail" placeholder='Security Answer' required />
             </div>
             <div className="mb-3">
-              <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder='Enter your Password' required/>
+              <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder='Enter Your New Password' required/>
             </div>
               <button type="submit" className="btn btn-primary">Reset</button>
           </div>

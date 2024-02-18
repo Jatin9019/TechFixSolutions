@@ -31,9 +31,9 @@ const Header = () => {
                 <NavLink to="/" className="nav-link" href="#">Home</NavLink>
               </li>
               <li className="nav-item dropdown">
-                <Link className="nav-link dropdown-toggle" to={"/categories"} data-bs-toggle="dropdown">Services</Link>
+                <Link className="nav-link dropdown-toggle" to={"/services"} data-bs-toggle="dropdown">Services</Link>
                 <ul className="dropdown-menu">
-                    <li><Link className="dropdown-item" to={"/categories"}>All Services</Link></li>
+                    <li><Link className="dropdown-item" to={"/services"}>All Services</Link></li>
                 </ul>
               </li>
               {!auth.user?(
@@ -52,7 +52,8 @@ const Header = () => {
                     {auth?.user?.Name}
                   </NavLink>
                   <ul className="dropdown-menu">
-                    <li><NavLink to={`/dashboard/${auth?.user?.role===1 ? "admin" : "user" }`} className="dropdown-item">Dashboard</NavLink></li>
+                    <li className="nav-item"><NavLink to={`/dashboard/${auth?.user?.Role===1 ? "admin" : "user" }`} className="dropdown-item">Dashboard</NavLink></li>
+                    {auth?.user.Technician ? (<li className='nav-item'><NavLink to={`/dasboard/technician`} className="dropdown-item">Technician Dashboard</NavLink></li>) : (<li></li>)}
                     <li className="nav-item"><NavLink to="/login" onClick={handleLogout} className="dropdown-item">Logout</NavLink></li>
                   </ul>
                 </li>

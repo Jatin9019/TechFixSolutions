@@ -69,13 +69,22 @@ const Register = () => {
                         <Select bordered={false} placeholder="Select Province" size='large' showSearch className='form-select mb-3' onChange={(value)=>{setProvince(value)}}>
                             <Option value="Ontario">Ontario</Option>
                             <Option value="Quebec">Quebec</Option>
+                            <Option value="Nova Scotia">Nova Scotia</Option>
+                            <Option value="New Brunswick">New Brunswick</Option>
+                            <Option value="Manitoba">Manitoba</Option>
+                            <Option value="British Columbia">British Columbia</Option>
+                            <Option value="Prince Edward Island">Prince Edward Island</Option>
+                            <Option value="Saskatchewan">Saskatchewan</Option>
+                            <Option value="Alberta">Alberta</Option>
+                            <Option value="Newfoundland and Labrador">Newfoundland and Labrador</Option>
+
                         </Select>
                     </div>
                     <div className="mb-3">
                         <input type="text" value={Pincode} onChange={(e)=>setPincode(e.target.value)} className="form-control" id="exampleInputAddress" placeholder='Enter your Pincode' required />
                     </div>
                     <div className="mb-3">
-                        <input type="text" value={Answer} onChange={(e)=>setAnswer(e.target.value)} className="form-control" id="exampleInputAddress" placeholder='What is your City Name?' required />
+                        <input type="text" value={Answer} onChange={(e)=>setAnswer(e.target.value)} className="form-control" id="exampleInputAddress" placeholder='What is your Favourite Sport?' required />
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>

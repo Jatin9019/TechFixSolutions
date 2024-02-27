@@ -4,6 +4,11 @@ import dotenv from 'dotenv'
 import morgan from 'morgan'
 import connectDB from './config/db.js'
 import authRoute from './routes/authRoute.js'
+import usedProductsRoutes from './routes/usedProductsRoutes.js'
+import productCategoryRoutes from './routes/productCategoryRoutes.js'
+import newProductsRoutes from './routes/newProductsRoutes.js'
+import complaintCategoryRoutes from './routes/complaintCategoryRoutes.js'
+
 dotenv.config()
 
 const app = express()
@@ -20,6 +25,10 @@ app.get('/',(req,res)=>{
 })
 
 app.use("/api/v1/auth",authRoute)
+app.use("/api/v1/productCategory",productCategoryRoutes)
+app.use("/api/v1/usedProducts",usedProductsRoutes)
+app.use("/api/v1/newProducts",newProductsRoutes)
+app.use("/api/v1/complaintCategory",complaintCategoryRoutes)
 
 const PORT = process.env.PORT
 app.listen(PORT,()=>{

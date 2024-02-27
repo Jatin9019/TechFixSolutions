@@ -13,6 +13,20 @@ import Private from './components/Routes/Private';
 import Dashboard from './pages/User/Dashboard';
 import AdminRoute from './components/Routes/AdminRoute';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import AllUsers from './pages/Admin/AllUsers';
+import AllTechnicians from './pages/Admin/AllTechnicians';
+import ServicesCategory from './pages/Admin/ServicesCategory';
+import AllComplaints from './pages/Admin/AllComplaints';
+import AllOrders from './pages/Admin/AllOrders';
+import UserProfile from './pages/User/UserProfile';
+import MyOrders from './pages/User/MyOrders';
+import MyComplaints from './pages/User/MyComplaints';
+import SellProduct from './pages/User/SellProduct';
+import AddProduct from './pages/Admin/AddProduct';
+import ProductCategory from './pages/Admin/ProductCategory';
+import ManageProducts from './pages/Admin/ManageProducts';
+import UpdateNewProduct from './pages/Admin/UpdateNewProduct';
+import WorkToDo from './pages/Technician/WorkToDo';
 
 
 function App() {
@@ -28,10 +42,25 @@ function App() {
         <Route path='/forget-password' element={<ForgetPassword />} />
         <Route path='/dashboard' element={<Private />}>
           <Route path='user' element={<Dashboard />} />
-          <Route path='fileComplaint' element={<FileComplaint />} />
+          <Route path='user/fileComplaint' element={<FileComplaint />} />
+          <Route path='user/userProfile' element={<UserProfile />} />
+          <Route path='user/myOrders' element={<MyOrders />} />
+          <Route path='user/myComplaints' element={<MyComplaints />} />
+          <Route path='user/sellProducts' element={<SellProduct />} />
+          <Route path='user/workToDo' element={<WorkToDo />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path='admin' element={<AdminDashboard />} />
+          <Route path='admin/users' element={<AllUsers />} />
+          <Route path='admin/technicians' element={<AllTechnicians />} />
+          <Route path='admin/services' element={<ServicesCategory />} />
+          <Route path='admin/allComplaints' element={<AllComplaints />} />
+          <Route path='admin/allOrders' element={<AllOrders />} />
+          <Route path='admin/productCategories' element={<ProductCategory />} />
+          <Route path='admin/addProduct' element={<AddProduct />} />
+          <Route path='admin/manageProducts' element={<ManageProducts />} />
+          <Route path='admin/updateNewProduct/:pid' element={<UpdateNewProduct />} />
+
         </Route>
         <Route path='*' element={<PageNotFound />} />
 

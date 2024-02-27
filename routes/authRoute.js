@@ -1,5 +1,5 @@
 import express from 'express'
-import {ForgetPasswordController, deleteUserController, getAllUsersController, loginController, registerController, updateProfileController} from '../controllers/authController.js' 
+import {ForgetPasswordController, deleteUserController, getAllUsersController, getTechniciansController, loginController, registerController, updateProfileController} from '../controllers/authController.js' 
 import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js'
 const router = express.Router()
 
@@ -21,6 +21,9 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req,res)=>{
 router.put("/profile", requireSignIn, updateProfileController)
 //route for getting all users
 router.get("/getAllUsers", requireSignIn, isAdmin, getAllUsersController)
+//route to get all technicians
+router.get("/getAllTechnicians", requireSignIn, isAdmin, getTechniciansController)
 //route to delete user
 router.delete("/user/:id", requireSignIn, isAdmin, deleteUserController)
+
 export default router

@@ -71,7 +71,7 @@ export const registerController = async(req,res) => {
 
 export const getAllUsersController = async(req,res) => {
     try{
-        const users = await userModel.find({}).select("-Password").sort("Name")
+        const users = await userModel.find({isTechnician:{$eq : false}}).select("-Password").sort("Name")
         res.send({
             success: true,
             message: "All users",
@@ -121,7 +121,7 @@ export const loginController = async(req,res) => {
                 MobileNumber: user.MobileNumber,
                 Address: user.Address,
                 Role: user.Role,
-                Technician: user.isTechnician
+                isTechnician: user.isTechnician
             },
             token
         })
@@ -183,24 +183,19 @@ export const ForgetPasswordController = async(req,res) => {
 
 export const updateProfileController = async(req,res) => {
     try{
-        const {Name, Password, MobileNumber, Address} = req.body
+        const {Name, MobileNumber, Address} = req.body
         const user = await userModel.findById(req.user._id)
-        if(Password & Password.length < 6){
-            return res.json({error:"Password is required and it should be minimum 6 characters long"})
-        }
         if (Address){
             Address.StreetNumber ? Address.StreetNumber : Address.StreetNumber=user.Address.StreetNumber
             Address.StreetName ? Address.StreetName : Address.StreetName=user.Address.StreetName
             Address.City ? Address.City : Address.City=user.Address.City
-            Address.Province ? Address.Province : Address.Province=user.Address.Province
+            Address.userProvince ? Address.Province=Address.userProvince : Address.Province=user.Address.Province
             Address.Pincode ? Address.Pincode : Address.Pincode=user.Address.Pincode
         }
-        const hashedPassword = Password ? await hashPassword(Password) : undefined
         const updatedUser = await userModel.findByIdAndUpdate(req.user._id,{
             Name: Name || user.Name,
             MobileNumber: MobileNumber || user.MobileNumber,
             Address: Address || user.Address,
-            Password: hashedPassword || user.Password
         },{new: true})
         res.status(200).send({
             success: true,
@@ -227,6 +222,24 @@ export const deleteUserController = async(req,res) => {
         res.status(500).send({
             success: false,
             message: "User Deletion failed"
+        })
+    }
+}
+
+export const getTechniciansController = async(req,res) => {
+    try{
+        const users = await userModel.find({isTechnician:{$eq: true}})
+        res.status(200).send({
+            success: true,
+            message: "All Technicians Details",
+            users
+        })
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Get All Technicians failed"
         })
     }
 }

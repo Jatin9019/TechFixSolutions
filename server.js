@@ -8,6 +8,8 @@ import usedProductsRoutes from './routes/usedProductsRoutes.js'
 import productCategoryRoutes from './routes/productCategoryRoutes.js'
 import newProductsRoutes from './routes/newProductsRoutes.js'
 import complaintCategoryRoutes from './routes/complaintCategoryRoutes.js'
+import usedProductConditionCategoriesRoutes from './routes/usedProductConditionCategoriesRoutes.js';
+import repairRequestRoutes from './routes/repairRequestRoutes.js'
 
 dotenv.config()
 
@@ -24,11 +26,13 @@ app.get('/',(req,res)=>{
     })
 })
 
-app.use("/api/v1/auth",authRoute)
-app.use("/api/v1/productCategory",productCategoryRoutes)
-app.use("/api/v1/usedProducts",usedProductsRoutes)
-app.use("/api/v1/newProducts",newProductsRoutes)
-app.use("/api/v1/complaintCategory",complaintCategoryRoutes)
+app.use("/api/v1/auth", authRoute)
+app.use("/api/v1/productCategory", productCategoryRoutes)
+app.use("/api/v1/usedProducts", usedProductsRoutes)
+app.use("/api/v1/newProducts", newProductsRoutes)
+app.use("/api/v1/complaintCategory", complaintCategoryRoutes)
+app.use("/api/v1/usedProductConditions", usedProductConditionCategoriesRoutes)
+app.use("/api/v1/repairRequests", repairRequestRoutes)
 
 const PORT = process.env.PORT
 app.listen(PORT,()=>{

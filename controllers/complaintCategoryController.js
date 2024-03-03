@@ -67,3 +67,21 @@ export const deleteComplaintCategory = async(req,res) => {
         })
     }
 }
+
+export const showIndividualComplaintCategoryRequest = async(req,res) => {
+    try{
+        const categoryID = req.params.categoryID;
+        const individualComplaintCategoryRequest = await complaintCategory.findById(categoryID)
+        res.status(200).send({
+            success: true,
+            message: "Individual Complaint Category",
+            individualComplaintCategoryRequest
+        })
+    }
+    catch(error){
+        res.status(500).send({
+            success: false,
+            message: "Individual Complaint Category failed"
+        })
+    }
+}

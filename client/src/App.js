@@ -27,6 +27,8 @@ import ProductCategory from './pages/Admin/ProductCategory';
 import ManageProducts from './pages/Admin/ManageProducts';
 import UpdateNewProduct from './pages/Admin/UpdateNewProduct';
 import WorkToDo from './pages/Technician/WorkToDo';
+import ManageUsedProductConditions from './pages/Admin/ManageUsedProductConditions';
+import ManageListedProducts from './pages/User/ManageListedProducts';
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
           <Route path='user/myOrders' element={<MyOrders />} />
           <Route path='user/myComplaints' element={<MyComplaints />} />
           <Route path='user/sellProducts' element={<SellProduct />} />
+          <Route path='user/manageListedProducts' element={<ManageListedProducts />} />
           <Route path='user/workToDo' element={<WorkToDo />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
@@ -60,7 +63,7 @@ function App() {
           <Route path='admin/addProduct' element={<AddProduct />} />
           <Route path='admin/manageProducts' element={<ManageProducts />} />
           <Route path='admin/updateNewProduct/:pid' element={<UpdateNewProduct />} />
-
+          <Route path='admin/manageUsedProductsCondition' element={<ManageUsedProductConditions />} />
         </Route>
         <Route path='*' element={<PageNotFound />} />
 

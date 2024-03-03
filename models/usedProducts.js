@@ -17,7 +17,13 @@ const usedProductsSchema = new mongoose.Schema({
         contentType: String
     },
     Condition:{
-        type: String,
+        type: mongoose.ObjectId,
+        ref: "Usedproducts condition",
+        required: true
+    },
+    ProductCategory:{
+        type: mongoose.ObjectId,
+        ref:"Product Categories",
         required: true
     },
     Price:{

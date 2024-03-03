@@ -4,8 +4,7 @@ import AdminMenu from '../../components/Layout/AdminMenu'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-
-const ProductCategory = () => {
+const ManageUsedProductConditions = () => {
     const [newCategory,setNewCategory] = useState("");
     const [categories,setCategories] = useState([]);
     useEffect(()=>{
@@ -14,45 +13,19 @@ const ProductCategory = () => {
 
     const getCategories = async() => {
         try{
-            const categoriesAPI = await axios.get("/api/v1/productCategory/showProductCategory")
+            const categoriesAPI = await axios.get("/api/v1/usedProductConditions/showUsedProductCondition")
             if(categoriesAPI?.data.success){
-                setCategories(categoriesAPI.data.productCategories);
+                setCategories(categoriesAPI.data.usedProductConditionCategories);
             }
         }
         catch(error){
             toast.error("Something went wrong");
         }
     }
-
-    const handleDelete = async(categoryID) => {
-        try{
-            const deleteCategory = await axios.delete(`/api/v1/productCategory/deleteProductCategory/${categoryID}`)
-            const productsDelete = await axios.delete(`/api/v1/newProducts/delete-products/${categoryID}`)
-            if(deleteCategory.data.success & productsDelete.data.success){
-                toast.success("Delete Category and its products successfull")
-                getCategories();
-            }else{
-                toast.error(deleteCategory.data.message)
-            }
-        }catch(error){
-            toast.error("somethiing went wrong")
-        }
-    }
-
-    const handleUpdate = async(userID) => {
-        try{
-            console.log(userID)
-        }
-        catch(error){
-            toast.error("Something went wrong")
-        }
-    }
-
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            const data = await axios.post("/api/v1/productCategory/addNewProductCategory",{Name:newCategory})
-            console.log(data.data);
+            const data = await axios.post("/api/v1/usedProductConditions/addUsedProductCondition",{Name:newCategory})
             if(data?.data.success){
                 toast.success(`Category ${newCategory} created successfully`);
                 getCategories();
@@ -63,8 +36,22 @@ const ProductCategory = () => {
             toast.error("Something went wrong")
         }
     }
+    const handleDelete = async(categoryID) => {
+        try{
+            const deleteCategory = await axios.delete(`/api/v1/usedProductConditions/deleteUsedProductConditionCategory/${categoryID}`)
+            if(deleteCategory?.data.success){
+                toast.success("Delete product condition successfull")
+                getCategories();
+            }else{
+                toast.error(deleteCategory?.data.message)
+            }
+        }catch(error){
+            toast.error("somethiing went wrong")
+        }
+    }
+    const handleUpdate = async() => {}
   return (
-    <Layout title="Manage Product Categories">
+    <Layout title="Manage used products conditions">
         <div className='container-fluid m-3 p-3'>
             <div className='row me-0'>
                 <div className='col-md-2'><AdminMenu /></div>
@@ -106,4 +93,4 @@ const ProductCategory = () => {
   )
 }
 
-export default ProductCategory
+export default ManageUsedProductConditions

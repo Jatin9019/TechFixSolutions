@@ -59,9 +59,9 @@ const ServicesCategory = () => {
   return (
     <Layout title="Services">
         <div className='container-fluid m-3 p-3'>
-            <div className='row'>
-                <div className='col-md-3'><AdminMenu /></div>
-                <div className='col-md-9'>
+            <div className='row me-0'>
+                <div className='col-md-2'><AdminMenu /></div>
+                <div className='col-md-10'>
                   <form onSubmit={handleSubmit}>
                     <div className='mb-3'>
                       <label htmlFor = "inputCategory" className='form-label h3'>Add a New Category</label>

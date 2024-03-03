@@ -77,3 +77,25 @@
 .AuthTitle{
   color: black;
 }
+
+.complaintRow:hover {
+  transform: scale(1.05); /* Increase size on hover */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  cursor: pointer;
+}
+
+.custom-success-badge {
+  background-color: #28a745; /* green color */
+  color: #fff; /* White color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 5px 10px; /* Padding */
+  font-size: 24px; /* Font size */
+}
+
+.custom-pending-badge {
+  background-color: #ffc107; /* yellow color */
+  color: #fff; /* White color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 5px 10px; /* Padding */
+  font-size: 24px; /* Font size */
+}

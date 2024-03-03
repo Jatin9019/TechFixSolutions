@@ -23,6 +23,7 @@ const UserMenu = () => {
                     <NavLink to="/dashboard/user/userProfile" className="list-group-item list-group-item-action">Profile</NavLink>
                     <NavLink to="/dashboard/user/fileComplaint" className="list-group-item list-group-item-action">File a complaint</NavLink>
                     <NavLink to="/dashboard/user/sellProducts" className="list-group-item list-group-item-action">Sell Product</NavLink>
+                    <NavLink to="/dashboard/user/manageListedProducts" className="list-group-item list-group-item-action">Manage listed products</NavLink>
                     <NavLink to="/dashboard/user/myOrders" className="list-group-item list-group-item-action">My Orders</NavLink>
                     <NavLink to="/dashboard/user/myComplaints" className="list-group-item list-group-item-action">My Complaints</NavLink>
                   </>

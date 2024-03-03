@@ -45,7 +45,7 @@ const UserProfile = () => {
         setAuth({...auth, user: data?.updatedUser})
         let localStorageData = localStorage.getItem("auth")
         localStorageData = JSON.parse(localStorageData)
-        localStorageData.user = data.updatedUser
+        localStorageData.user = data?.updatedUser
         localStorage.setItem("auth",JSON.stringify(localStorageData))
         console.log(auth)
         toast.success(data?.message)
@@ -59,9 +59,9 @@ const UserProfile = () => {
   return (
     <Layout title="User Profile">
         <div className='container-fluid m-3 p-3'>
-          <div className='row'>
-            <div className='col-md-3'><UserMenu /></div>
-            <div className='col-md-9'>
+          <div className='row me-0'>
+            <div className='col-md-2'><UserMenu /></div>
+            <div className='col-md-10'>
               <form onSubmit={handleUpdate}>
                 <div className="mb-3">
                   <label htmlFor="InputName" className="form-label">Name</label>

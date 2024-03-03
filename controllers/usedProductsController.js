@@ -3,12 +3,13 @@ import usedProducts from "../models/usedProducts.js";
 import fs from 'fs'
 export const postUsedProduct = async(req,res) => {
     try{
-        const {Name,Description,Condition,Price,TentativePurchaseDate,WarrentyStatus,WarrentyExpiryDate,Seller} = req.fields
+        const {Name,Description,Condition,ProductCategory,Price,TentativePurchaseDate,WarrentyStatus,WarrentyExpiryDate,Seller} = req.fields
         const {Photo} = req.files
         switch(true){
             case !Name : return res.status(500).send({error: "Name is Required"})
             case !Description : return res.status(500).send({error: "Description is Required"})
             case !Condition : return res.status(500).send({error: "Condition is Required"})
+            case !ProductCategory : return res.status(500).send({error: "ProductCategory is Required"})
             case !Price : return res.status(500).send({error: "Price is Required"})
             case !TentativePurchaseDate : return res.status(500).send({error: "Tentative Purchase Date is Required"})
             case !WarrentyStatus : return res.status(500).send({error: "Warrenty Status is Required"})
@@ -40,7 +41,7 @@ export const postUsedProduct = async(req,res) => {
 
 export const ShowUsedProducts = async(req,res) => {
     try{
-        const products = await usedProducts.find({}).select("-Photo").limit(12).populate("Seller")
+        const products = await usedProducts.find({}).select("-Photo").limit(12).populate("Seller").populate("ProductCategory").populate("Condition")
         res.status(200).send({
             success: true,
             message: "Used Products List",

@@ -5,6 +5,6 @@ import { addProductCategory, deleteProductCategory, showProductCategory } from '
 const router = express.Router()
 
 router.post("/addNewProductCategory",requireSignIn,isAdmin,addProductCategory)
-router.get("/showProductCategory",requireSignIn,showProductCategory)
+router.get("/showProductCategory",showProductCategory)
 router.delete("/deleteProductCategory/:categoryID", requireSignIn, isAdmin, deleteProductCategory)
 export default router

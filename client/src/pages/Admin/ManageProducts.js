@@ -34,9 +34,9 @@ const ManageProducts = () => {
   return (
     <Layout title='Manage all products'>
         <div className='container-fluid m-3 p-3'>
-            <div className='row'>
-                <div className='col-md-3'><AdminMenu /></div>
-                <div className='col-md-9'>
+            <div className='row me-0'>
+                <div className='col-md-2'><AdminMenu /></div>
+                <div className='col-md-10'>
                     <h3>All Products</h3>
                     <div className='d-flex flex-wrap'>
                     {products.map((product)=>(

@@ -2,9 +2,9 @@ import React from 'react'
 import Layout from '../../components/Layout/Layout'
 import UserMenu from '../../components/Layout/UserMenu'
 
-const Dashboard = () => {
+const ManageListedProducts = () => {
   return (
-    <Layout title="User Dashboard">
+    <Layout title="Manage Listed Products">
         <div className='container-fluid m-3 p-3'>
             <div className='row me-0'>
                 <div className='col-md-2'><UserMenu /></div>
@@ -15,4 +15,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default ManageListedProducts

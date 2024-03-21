@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {NavLink,Link} from 'react-router-dom'
 import {FcElectronics} from 'react-icons/fc'
 import { useAuth } from '../../context/auth'
 import { toast } from 'react-hot-toast';
 import {Badge} from 'antd'
 import { useCart } from '../../context/cart';
+import axios from 'axios';
 const Header = () => {
   const [auth,setAuth]= useAuth()
-  //const [cart]=useCart()
+  const [cart] = useCart()
+
   const handleLogout = () => {
     setAuth({
         ...auth,
@@ -17,6 +19,11 @@ const Header = () => {
     localStorage.removeItem('auth');
     toast.success("Logout Successfully");
   }
+
+  useEffect(()=>{
+    
+  },[])
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -58,9 +65,11 @@ const Header = () => {
                 </li>
                 </>
               )}
-              <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">Cart</NavLink>
-              </li> 
+              <li className='nav-item'>
+                <Badge count={cart?.length} showZero>
+                  <NavLink to="/cart" className="nav-link">Cart</NavLink>
+                </Badge>
+              </li>
             </ul>
           </div>
         </div>

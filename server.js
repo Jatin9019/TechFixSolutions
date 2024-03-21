@@ -10,6 +10,7 @@ import newProductsRoutes from './routes/newProductsRoutes.js'
 import complaintCategoryRoutes from './routes/complaintCategoryRoutes.js'
 import usedProductConditionCategoriesRoutes from './routes/usedProductConditionCategoriesRoutes.js';
 import repairRequestRoutes from './routes/repairRequestRoutes.js'
+import ordersRoutes from './routes/ordersRoutes.js'
 
 dotenv.config()
 
@@ -33,6 +34,7 @@ app.use("/api/v1/newProducts", newProductsRoutes)
 app.use("/api/v1/complaintCategory", complaintCategoryRoutes)
 app.use("/api/v1/usedProductConditions", usedProductConditionCategoriesRoutes)
 app.use("/api/v1/repairRequests", repairRequestRoutes)
+app.use("/api/v1/orders", ordersRoutes)
 
 const PORT = process.env.PORT
 app.listen(PORT,()=>{

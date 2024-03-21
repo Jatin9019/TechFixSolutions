@@ -33,7 +33,7 @@ const AllComplaints = () => {
     }
   }
 
-  const updateComplaint = (id,userName,technicianId,serviceDetails,problemProductDetails,date,comment,typeOfServiceNeeded,status) => {
+  const updateComplaint = (id,userName,technicianId,serviceDetails,problemProductDetails,date,comment,typeOfServiceNeeded,status,totalPayment) => {
     setUpdate(true);
     setComplaintDetails({
       "id": id,
@@ -44,7 +44,8 @@ const AllComplaints = () => {
       "date":date,
       "comment":comment,
       "typeOfServiceNeeded":typeOfServiceNeeded,
-      "status":status
+      "status":status,
+      "totalPayment":totalPayment
     })
   }
 
@@ -67,16 +68,17 @@ const AllComplaints = () => {
                                 <th scope='col'>TechnicianDetails</th>
                                 <th scope='col'>ServiceDetails</th>
                                 <th scope='col'>ProblemProductDetails</th>
-                                <th scope='col'>Date</th>
+                                <th scope='col'>Complaint filed date</th>
                                 <th scope='col'>Comment</th>
                                 <th scope='col'>TypeOfServiceNeeded</th>
                                 <th scope='col'>Status</th>
+                                <th scope='col'>Technician status</th>
                               </tr>
                             </thead>
                             <tbody>
                                 {complaints.map((complaint)=>(
-                                    <tr key={complaint._id} className='complaintRow' onClick={()=>updateComplaint(complaint._id,complaint.UserDetails.Name,complaint?.TechnicianDetails?._id,complaint.ServiceDetails.ServiceName,complaint.ProblemProductDetails.Name,complaint.Date,complaint.Comment,complaint.TypeOfServiceNeeded,complaint.Status)}>
-                                        <td>{complaint.UserDetails.Name}</td>
+                                    <tr key={complaint._id} className='complaintRow' onClick={()=>updateComplaint(complaint._id,complaint.UserDetails?.Name,complaint.TechnicianDetails?._id,complaint.ServiceDetails?.ServiceName,complaint.ProblemProductDetails?.Name,complaint.Date,complaint.Comment,complaint.TypeOfServiceNeeded,complaint.Status,complaint.TotalPriceCharged)}>
+                                        <td>{complaint.UserDetails?.Name}</td>
                                         <td>{complaint?.TechnicianDetails?.Name}</td>
                                         <td>{complaint.ServiceDetails.ServiceName}</td>
                                         <td>{complaint.ProblemProductDetails.Name}</td>
@@ -84,6 +86,7 @@ const AllComplaints = () => {
                                         <td>{complaint.Comment}</td>
                                         <td>{complaint.TypeOfServiceNeeded}</td>
                                         <td>{complaint.Status}</td>
+                                        <td>{complaint.TechnicianComment}</td>
                                     </tr>
                                 ))}
                             </tbody>

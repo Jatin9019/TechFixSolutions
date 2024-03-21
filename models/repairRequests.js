@@ -27,6 +27,12 @@ const repairRequestsSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    TechnicianComment: {
+        type: String
+    },
+    TotalPriceCharged:{
+        type: Number  
+    },
     Status: {
         type: String,
         default: "Complaint filed"

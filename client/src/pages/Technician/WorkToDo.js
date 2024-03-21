@@ -4,17 +4,22 @@ import UserMenu from '../../components/Layout/UserMenu'
 import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
-import TechnicanComment from '../../components/Forms/TechnicanComment';
+import TechnicanComment from '../../components/Forms/TechnicianComment.js';
 
 const WorkToDo = () => {
   const [auth,setAuth]=useAuth();
   const [allpendingWorks,setAllpendingWorks] = useState([]);
   const [updateValues,setUpdateValues] = useState(false)
   const [repairID,setRepairID] = useState("")
-  const handleUpdate = async(id) => {
+  const [price,setPrice] = useState("")
+  const [technicianID,setTechnicianID] = useState("")
+
+  const handleUpdateTask = async(id,price) => {
     setRepairID(id)
+    setPrice(price)
     setUpdateValues(true)
   }
+  
 
   const getIndividualWork = async() => {
     try{
@@ -26,13 +31,17 @@ const WorkToDo = () => {
     }
   }
 
+  const handleRefresh = () => {
+    getIndividualWork()
+  };
+
   const toggleChildComponent = (boolValue) => {
     setUpdateValues(boolValue);
     toast.success("send to admin for final checking")
   }
 
   useEffect(()=>{
-    getIndividualWork()
+    if(auth?.token) getIndividualWork()
   },[auth?.token])
 
   return (
@@ -60,18 +69,17 @@ const WorkToDo = () => {
                         <tbody>
                           {allpendingWorks.map((pendingwork)=>(
                             <tr key={pendingwork._id}>
-                              <td>{(pendingwork.Status == "Problem resoved") ? <span className='custom-success-badge'>Done</span>:<span className='custom-pending-badge'>Pending</span> }</td>
-                              <td>{pendingwork.UserDetails.Name}</td>
-                              <td>{pendingwork.UserDetails.MobileNumber}</td>
-                              <td>{pendingwork.ServiceDetails.ServiceName}</td>
-                              <td>{pendingwork.ProblemProductDetails.Name}</td>
+                              <td>{(pendingwork.Status == "Problem resolved") ? <span className='custom-success-badge'>Done</span>:((pendingwork.Status == "Work completed by technician")? <span className='custom-pending-badge'>Waiting for admin approval</span> : <span className='custom-pending-badge'>Pending</span>) }</td>
+                              <td>{pendingwork.UserDetails?.Name}</td>
+                              <td>{pendingwork.UserDetails?.MobileNumber}</td>
+                              <td>{pendingwork.ServiceDetails?.ServiceName}</td>
+                              <td>{pendingwork.ProblemProductDetails?.Name}</td>
                               <td>{pendingwork.Comment}</td>
                               <td>{pendingwork.TypeOfServiceNeeded}</td>
                               <td>
-                                {(pendingwork.Status == "Problem resoved") ? "": 
+                                {(pendingwork.Status == "Problem resolved") ? "": 
                                 <>
-                                  <button className='btn btn-success mb-1' onClick={()=>handleUpdate(pendingwork._id)}>Task completed</button>
-                                  <button className='btn btn-warning'>Report to admin for verify</button>
+                                  <button className='btn btn-warning mb-1' onClick={()=>handleUpdateTask(pendingwork._id,pendingwork.ServiceDetails.Price)}>Update Task</button>
                                 </> }
                               </td>
                             </tr>
@@ -82,7 +90,7 @@ const WorkToDo = () => {
                     {!updateValues ? 
                     <div></div>
                     :
-                    <TechnicanComment repairID= {repairID} afterUpdatingValues={toggleChildComponent}/>}
+                    <TechnicanComment repairID= {repairID} price={price} technicianID={technicianID} afterUpdatingValues={toggleChildComponent} onRefresh={handleRefresh}/>}
                 </div>
             </div>
         </div>

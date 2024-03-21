@@ -39,8 +39,7 @@ const usedProductsSchema = new mongoose.Schema({
         required: true
     },
     WarrentyExpiryDate:{
-        type: Date,
-        required: true
+        type: Date
     },
     Seller:{
         type: mongoose.ObjectId,

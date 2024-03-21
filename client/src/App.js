@@ -29,6 +29,10 @@ import UpdateNewProduct from './pages/Admin/UpdateNewProduct';
 import WorkToDo from './pages/Technician/WorkToDo';
 import ManageUsedProductConditions from './pages/Admin/ManageUsedProductConditions';
 import ManageListedProducts from './pages/User/ManageListedProducts';
+import ManageUsedProducts from './pages/Admin/ManageUsedProducts';
+import ProductMoreDetails from './pages/ProductMoreDetails';
+import CartPage from './pages/CartPage';
+import Services from './pages/Services';
 
 
 function App() {
@@ -42,6 +46,9 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forget-password' element={<ForgetPassword />} />
+        <Route path='/MoreDetails/:productStatus/:pid' element={<ProductMoreDetails />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/services' element={<Services />} />
         <Route path='/dashboard' element={<Private />}>
           <Route path='user' element={<Dashboard />} />
           <Route path='user/fileComplaint' element={<FileComplaint />} />
@@ -62,6 +69,7 @@ function App() {
           <Route path='admin/productCategories' element={<ProductCategory />} />
           <Route path='admin/addProduct' element={<AddProduct />} />
           <Route path='admin/manageProducts' element={<ManageProducts />} />
+          <Route path='admin/manageUsedProducts' element={<ManageUsedProducts />} />
           <Route path='admin/updateNewProduct/:pid' element={<UpdateNewProduct />} />
           <Route path='admin/manageUsedProductsCondition' element={<ManageUsedProductConditions />} />
         </Route>

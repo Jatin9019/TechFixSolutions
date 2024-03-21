@@ -13,10 +13,10 @@ const UpdateComplaint = ({afterUpdatingValues,complaintDetails,onRefresh}) => {
   const [technicians,setTechnicians] = useState([])
   const [status,setStatus] = useState("")
   const [updatedTypeofService, setUpdatedTypeofService] = useState(null);
-
+  const [totalPayment,setTotalPayment] = useState(complaintDetails.totalPayment);
   const updateValues = async() => {
     try{
-      const updateValues = await axios.put(`/api/v1/repairRequests/updateRepairRequest/${id}`,{TechnicianID: assignedTechnician || "", TypeOfService: updatedTypeofService, Status: status})
+      const updateValues = await axios.put(`/api/v1/repairRequests/updateRepairRequest/${id}`,{TechnicianID: assignedTechnician || "", TypeOfService: updatedTypeofService, Status: status, priceCharged: totalPayment})
       if(updateValues?.data.success){
         toast.success(updateValues?.data.message)
         onRefresh();
@@ -75,14 +75,20 @@ const UpdateComplaint = ({afterUpdatingValues,complaintDetails,onRefresh}) => {
           <label className='h6'>Type of service</label><br />
           <Radio.Group onChange={handleRadioChange} value={updatedTypeofService}>
             <Radio value="In Person">In Person</Radio>    
-            <Radio value="Onsite">Onsite</Radio>        
+            <Radio value="Remote">Remote</Radio>        
           </Radio.Group>
+        </div>
+        <div className='mb-3'>
+          <label className='h6'>Total payment technician is charging</label>
+          <input type='text' value = {totalPayment} onChange={(e)=>setTotalPayment(e.target.value)} className='form-control' />
         </div>
         <div className="mb-3">
           <Select bordered={false} placeholder="Status" size='large' showSearch className='form-select mb-3' onChange={(value)=>{setStatus(value)}}>
             <Option value="Complaint filed">Complaint filed</Option>
             <Option value="Technician Assigned">Technician Assigned</Option>
-            <Option value="Problem resoved">Problem resoved</Option>
+            <Option value="On Hold">On hold</Option>
+            <Option value="Technician working on it">Technician working on it</Option>
+            <Option value="Problem resolved">Problem resolved</Option>
             <Option value="Cancel repair request">Cancel repair request</Option>
           </Select>
         </div>

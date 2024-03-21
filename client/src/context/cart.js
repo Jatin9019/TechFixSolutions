@@ -2,13 +2,11 @@ import { useState,useEffect,useContext,createContext } from "react";
 const CartContext=createContext()
 
 const CartProvider = ({children}) => {
-    const [cart,setCart] = useState([])
+    const [cart,setCart] = useState([]);
 
     useEffect(()=>{
         let existingCartItem = localStorage.getItem('cart')
-        if(existingCartItem){
-            setCart(JSON.parse(existingCartItem))
-        }
+        if(existingCartItem) setCart(JSON.parse(existingCartItem))
     },[])
     return(
         <CartContext.Provider value={[cart,setCart]}>
@@ -16,6 +14,6 @@ const CartProvider = ({children}) => {
         </CartContext.Provider>
     )
 }
-const useCart = () => {useContext(CartContext)}
+const useCart = () => useContext(CartContext)
 
 export {useCart,CartProvider}

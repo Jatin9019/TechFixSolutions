@@ -5,11 +5,19 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { Checkbox,Radio } from 'antd';
 import { Prices } from '../components/Prices'
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom'
+import { useCart } from '../context/cart'
 const HomePage = () => {
   const [auth] = useAuth()
+  const [cart,setCart] = useCart();
   const [toggle,setToggle]=useState(false);
   const [newProducts, setNewProducts]= useState([]);
+  const [usedProducts, setUsedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [checked,setChecked]=useState([])
+  const [radio,setRadio]=useState([])
+  const navigate = useNavigate()
 
   const getCategories = async() => {
     try{
@@ -36,10 +44,60 @@ const HomePage = () => {
     }
   }
 
+  const getUsedProducts = async() => {
+    try{
+      const usedProductsList = await axios.get("/api/v1/usedProducts/showUsedProducts");
+      if(usedProductsList?.data.success){
+        setUsedProducts(usedProductsList?.data.products)
+      }
+    }
+    catch(error){
+      toast.error("Something went wrong!!")
+    }
+  }
+
+  const handleMoreDetails = async(id,productStatus) => {
+    try{
+      navigate(`/MoreDetails/${productStatus}/${id}`)
+    }
+    catch(error){
+      toast.error("Something went wrong !!")
+    }
+  }
+
+  const handleFilters = async(value,id) => {
+    let all = [...checked]
+    if(value){
+      all.push(id)
+    }else{
+      all = all.filter(c=>c!==id)
+    }
+    setChecked(all)
+  }
+
+  const filterProduct = async()=>{
+    try{
+      const {data} = await axios.post("/api/v1/newProducts/product-filters",{checked,radio})
+      setNewProducts(data?.products)
+    }
+    catch(errror){
+      console.log(errror);
+
+    }
+  }
   useEffect(()=>{
-    getNewProducts();
+    console.log(checked)
+    console.log(radio)
+    if(!checked.length || !radio.length){
+      getNewProducts();
+      getUsedProducts();
+    }
+    if(checked.length || radio.length){
+      filterProduct();
+    }
+
     getCategories();
-  },[])
+  },[checked, radio])
   return (
     <Layout title="All products">
       <div className='row me-0'>
@@ -55,14 +113,14 @@ const HomePage = () => {
             <div className='d-flex flex-column ms-3'>
               <label className='h3 mt-3'>Filter By Category</label>
               {categories?.map(c=>(
-                <Checkbox key={c._id}>{c.Name}</Checkbox>
+                <Checkbox key={c._id} onChange={(e)=>handleFilters(e.target.checked,c._id)}>{c.Name}</Checkbox>
               ))}
             </div>
           </div>
           <div className='border-black border-top mt-3 mb-3'>
             <div className='d-flex flex-column ms-3'>
               <label className='h3 mt-3'>Filter By Price</label>
-              <Radio.Group>
+              <Radio.Group onChange={e=>setRadio(e.target.value)}>
               {Prices?.map(p=>(
                 <div key={p._id}>
                   <Radio value={p.array}>{p.name}</Radio>
@@ -85,8 +143,12 @@ const HomePage = () => {
                                 <p className="card-text">{product.Description}</p>
                                 <label className='form-label'>Price - ${product.Price}</label><br />
                                 <label className='form-label'>Quantity - {product.Quantity}</label><br />
-                                <button className="btn btn-primary" >More Details</button>
-                                <button className="btn btn-secondary m-1">Add to cart</button>
+                                <button className="btn btn-primary" onClick={()=>handleMoreDetails(product._id,"newProducts")} >More Details</button>
+                                <button className="btn btn-secondary m-1" onClick={()=>{
+                                  setCart([...cart,product])
+                                  localStorage.setItem('cart',JSON.stringify([...cart,product]))
+                                  toast.success("Product added to cart")
+                                }}>Add to cart</button>
                             </div>
                         </div>
                     ))}
@@ -95,6 +157,36 @@ const HomePage = () => {
           ):(
             <div>
               <label className='h3 text-center'>Used Products</label>
+              <div className='d-flex flex-wrap'>
+                {usedProducts.map(((product)=>(
+                  <div className="card m-2" key={product._id} style={{width: '18rem'}}>
+                  <img src={`/api/v1/usedProducts/product-photo/${product._id}`} className="card-img-top" alt={product.Slug} />
+                  <div className="card-body">
+                      <h5 className="card-title">{product.Name}</h5>
+                      <p className="card-text">{product.Description}</p>
+                      <label className='form-label'>Condition -{product.Condition.Name}</label><br />
+                      <label className='form-label'>Price - ${product.Price}</label><br />
+                      <label className='form-label'>Seller - {product.Seller.Name}</label><br />
+                      <label className='form-label'>Tentative purchase date - {moment(product.TentativePurchaseDate).format('MMMM Do YYYY')}</label>
+                      {product.WarrentyStatus ? (
+                        <>
+                          <label className='form-label'>Warrenty expiry date - {moment(product.WarrentyExpiryDate).format('MMMM Do YYYY')}</label><br />
+                        </>
+                      ) : (
+                        <>
+                          <label className='form-label'>Warrenty status - <span className='text-danger'>Expired</span></label><br />
+                        </>
+                      ) }
+                      <button className="btn btn-primary" onClick={()=>handleMoreDetails(product._id,"usedProducts")} >More Details</button>
+                      <button className="btn btn-secondary m-1" onClick={()=>{
+                        setCart([...cart,product])
+                        localStorage.setItem('cart',JSON.stringify([...cart,product]))
+                        toast.success("Product added to cart")
+                      }}>Add to cart</button>
+                  </div>
+              </div>
+                )))}
+              </div>
             </div>
           )}
         </div>

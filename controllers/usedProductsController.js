@@ -13,7 +13,6 @@ export const postUsedProduct = async(req,res) => {
             case !Price : return res.status(500).send({error: "Price is Required"})
             case !TentativePurchaseDate : return res.status(500).send({error: "Tentative Purchase Date is Required"})
             case !WarrentyStatus : return res.status(500).send({error: "Warrenty Status is Required"})
-            case !WarrentyExpiryDate : return res.status(500).send({error: "Warrenty Expiry Date is Required"})
             case !Seller : return res.status(500).send({error: "Seller is Required"})
             case Photo && Photo.size > 1000000: return res.status(500).send({error:"Photo is Required and should be less than 1 MB"})
         }
@@ -49,10 +48,83 @@ export const ShowUsedProducts = async(req,res) => {
         })
     }
     catch(error){
-        console.log(error);
         res.status(500).send({
             success: false,
             message: "Error is getting used products list",
+            error
+        })
+    }
+}
+export const ShowIndividualUsedProducts = async(req,res) => {
+    try{
+        const uid = req.params.uid;
+        const products = await usedProducts.find({Seller: uid}).select("-Photo").populate("Seller").populate("ProductCategory").populate("Condition")
+        res.status(200).send({
+            success: true,
+            message: "Used Products List",
+            products
+        })
+    }
+    catch(error){
+        res.status(500).send({
+            success: false,
+            message: "Error in getting individual used products list",
+            error
+        })
+    }
+}
+
+export const UsedProductPhotoController = async(req,res) => {
+    try{
+        const id=req.params.pid;
+        const productPhoto = await usedProducts.findById(id).select("Photo")
+        if(productPhoto.Photo.data){
+            res.set("Content-type",productPhoto.Photo.contentType);
+            return res.status(200).send(productPhoto.Photo.data);
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in getting product photo",
+            error
+        })
+    }
+}
+
+export const DeleteUsedProductController = async(req,res) => {
+    try{
+        const id = req.params.pid;
+        await usedProducts.findByIdAndDelete(id)
+        res.status(200).send({
+            success: true,
+            message: "Used Product deleted successfully",
+        })
+    }
+    catch(error){
+        res.status(500).send({
+            success: false,
+            message: "Error in deleting used product",
+            error
+        })
+    }
+}
+
+export const getSingleUsedProductController = async(req,res) => {
+    try{
+        const pid = req.params.pid;
+        const usedProduct = await usedProducts.findById(pid).populate("Condition").populate("ProductCategory").populate("Seller")
+        res.status(200).send({
+            success: true,
+            message: "Individual product details",
+            usedProduct
+        })
+    }
+    catch(error){
+        res.status(500).send({
+            success: false,
+            message: "Error in getting single used product",
             error
         })
     }

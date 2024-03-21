@@ -49,14 +49,19 @@ export const showRepairRequests = async(req,res) => {
 
 export const updateRepairRequests = async(req,res) => {
     try{
-        const {TechnicianID,TypeOfService,Status} = req.body;
+        const {TechnicianID,TypeOfService,Status,commentOfTechnician,priceCharged} = req.body;
         const complaintID = req.params.complaintID;
         const complaintRequest = await repairRequests.findById(complaintID)
         const updatedModel = await repairRequests.findByIdAndUpdate(complaintID,{
             TechnicianDetails: TechnicianID || complaintRequest.TechnicianDetails,
             TypeOfServiceNeeded: TypeOfService || complaintRequest.TypeOfServiceNeeded,
-            Status: Status || complaintRequest.Status
+            Status: Status || complaintRequest.Status,
+            //TechnicianComment: "comment",
+            //TotalPriceCharged: 40
+            TechnicianComment: commentOfTechnician || complaintRequest.TechnicianComment,
+            TotalPriceCharged: priceCharged || complaintRequest.TotalPriceCharged
         },{new:true})
+        console.log(updatedModel)
         res.status(200).send({
             success: true,
             message: "Repair Request Updated successfully",
@@ -120,6 +125,24 @@ export const technicianWork = async(req,res) => {
         res.status(500).send({
             success: false,
             message: "Individual Repair Request failed"
+        })
+    }
+}
+
+export const checkAssignedTaskController = async(req,res) => {
+    try{
+        const {TechnicianDetails, Status} = req.body;
+        const checkAssignedTask = await repairRequests.find({TechnicianDetails,Status}).populate("UserDetails").populate("ServiceDetails").populate("ProblemProductDetails").populate("TechnicianDetails")
+        res.status(200).send({
+            success: true,
+            message: "Assigned individual assigned Tasks",
+            checkAssignedTask
+        })
+    }
+    catch(error){
+        res.status(500).send({
+            success: false,
+            message: "Check Assigned Task failed"
         })
     }
 }

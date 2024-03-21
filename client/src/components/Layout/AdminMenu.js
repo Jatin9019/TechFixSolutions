@@ -9,8 +9,9 @@ const AdminMenu = () => {
                 <NavLink to="/dashboard/admin/allComplaints" className="list-group-item list-group-item-action">All Complaints</NavLink>
                 <NavLink to="/dashboard/admin/productCategories" className="list-group-item list-group-item-action">Product Categories</NavLink>
                 <NavLink to="/dashboard/admin/addProduct" className="list-group-item list-group-item-action">Add a new product</NavLink>
-                <NavLink to="/dashboard/admin/manageProducts" className="list-group-item list-group-item-action">Manage Products</NavLink>
+                <NavLink to="/dashboard/admin/manageProducts" className="list-group-item list-group-item-action">Manage New Products</NavLink>
                 <NavLink to="/dashboard/admin/manageUsedProductsCondition" className="list-group-item list-group-item-action">Manage used products condition</NavLink>
+                <NavLink to="/dashboard/admin/manageUsedProducts" className="list-group-item list-group-item-action">Manage Used Products</NavLink>
                 <NavLink to="/dashboard/admin/users" className="list-group-item list-group-item-action">All Users</NavLink>
                 <NavLink to="/dashboard/admin/technicians" className="list-group-item list-group-item-action">All Technicians</NavLink>
                 <NavLink to="/dashboard/admin/allOrders" className="list-group-item list-group-item-action">All Orders</NavLink>

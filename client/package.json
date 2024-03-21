@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.12.8",
     "axios": "^1.6.7",
+    "braintree-web-drop-in-react": "^1.2.1",
     "colors": "^1.4.0",
     "icons": "^1.0.0",
     "moment": "^2.30.1",
